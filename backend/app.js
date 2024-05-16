@@ -7,14 +7,16 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 
 const Goal = require('./models/goal');
-
+const cors = require('cors');
 const app = express();
 
 const accessLogStream = fs.createWriteStream(
   path.join(__dirname, 'logs', 'access.log'),
   { flags: 'a' }
 );
-
+app.use(cors({
+    origin: 'http://139.162.44.216:3000' // Allow requests from this origin
+}));
 app.use(morgan('combined', { stream: accessLogStream }));
 
 app.use(bodyParser.json());
