@@ -1,0 +1,63 @@
+
+#version: '3.8' # OBSOLETE
+
+services:
+  mongodb:
+    image: mongo
+    build:
+      context: .
+    container_name: mongodb
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=han
+      - MONGO_INITDB_ROOT_PASSWORD=secret
+    volumes:
+      - data:/data/db
+    networks:
+      - goals-net
+
+  backend:
+    image: goals-node
+    build: ./backend
+    #    build:
+    #      context: ./backend
+    #      dockerfile: Dockerfile  # Adjust this if your Dockerfile has a different name
+    container_name: goals-backend
+    volumes:
+      #      - d:\Downloads\Udemy\Docker_and_Kubernetes\section5\multi-01-starting-setup\backend:/app
+      - ./backend:/app
+      - logs:/app/logs
+      - /app/node_modules
+    environment:
+      - MONGODB_USERNAME=han
+      - MONGODB_PASSWORD=secret
+    ports:
+      - "80:80"
+    networks:
+      - goals-net
+    depends_on:
+      - mongodb
+
+
+  frontend:
+    image: goals-react
+    build: ./frontend
+#    build:
+#      context: ./frontend
+#      dockerfile: Dockerfile  # Adjust this if your Dockerfile has a different name
+    container_name: goals-frontend
+    volumes:
+      - ./frontend/src:/app/src
+#      - D:\Downloads\Udemy\Docker_and_Kubernetes\section5\multi-01-starting-setup\frontend\src:/app/src
+
+    ports:
+      - "3000:3000"
+    networks:
+      - goals-net
+
+
+networks:
+  goals-net:
+
+volumes:
+  data:
+  logs:
