@@ -19,7 +19,9 @@ setup:
   stage: setup
   script:
     - docker pull $MONGODB_IMAGE
-    - docker network ls | grep -q goals-net || docker network create goals-net
+#    - docker network ls | grep -q goals-net || docker network create goals-net
+    # Check if the network exists
+    - if [[ ! "$(docker network ls -q -f name=goals-net)" ]]; then docker network create goals-net; fi
     - docker run --name mongodb -d --network goals-net $MONGODB_IMAGE
     - docker pull afaideen/goals-node:latest
     - docker pull afaideen/goals-react:latest
