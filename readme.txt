@@ -32,9 +32,11 @@ docker build -t goals-node .
 > docker run --name goals-backend --rm -d -p 80:80 --network goals-net goals-node 
 or
 docker run --name goals-backend -v d:\Downloads\Udemy\Docker_and_Kubernetes\section5\multi-01-starting-setup\backend:/app -v logs:/app/logs -v /app/node_modules -e MONGODB_USERNAME=han -e MONGODB_PASSWORD=secret --rm -d -p 80:80 --network goals-net goals-node
+docker run --name goals-backend -v ./backend:/app -v logs:/app/logs -v /app/node_modules -e MONGODB_USERNAME=han -e MONGODB_PASSWORD=secret --rm -d -p 80:80 --network goals-net goals-node
 
 
 ##########################//build and run front end
 docker build -t goals-react .
 docker run -v D:\Downloads\Udemy\Docker_and_Kubernetes\section5\multi-01-starting-setup\frontend\src:/app/src --name goals-frontend --rm -d -p 3000:3000 -it goals-react
+docker run -v ./frontend\src:/app/src --name goals-frontend --rm -d -p 3000:3000 -it goals-react
 

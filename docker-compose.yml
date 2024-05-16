@@ -7,9 +7,11 @@ services:
     build:
       context: .
     container_name: mongodb
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=han
-      - MONGO_INITDB_ROOT_PASSWORD=secret
+#    environment:
+#      - MONGO_INITDB_ROOT_USERNAME=han
+#      - MONGO_INITDB_ROOT_PASSWORD=secret
+    env_file:
+      - ./env/.env
     volumes:
       - data:/data/db
     networks:
@@ -27,9 +29,11 @@ services:
       - ./backend:/app
       - logs:/app/logs
       - /app/node_modules
-    environment:
-      - MONGODB_USERNAME=han
-      - MONGODB_PASSWORD=secret
+#    environment:
+#      - MONGODB_USERNAME=han
+#      - MONGODB_PASSWORD=secret
+    env_file:
+      - ./env/.env
     ports:
       - "80:80"
     networks:
@@ -51,8 +55,12 @@ services:
 
     ports:
       - "3000:3000"
-    networks:
-      - goals-net
+#    networks:
+#      - goals-net
+    stdin_open: true
+    tty: true
+    depends_on:
+      - backend
 
 
 networks:
