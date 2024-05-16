@@ -21,6 +21,10 @@ setup:
     - docker pull $MONGODB_IMAGE
     - docker network ls | grep -q goals-net || docker network create goals-net
     - docker run --name mongodb -d --network goals-net $MONGODB_IMAGE
+  tags:
+    - localshell
+    - localrunner
+
 
 build:
   image: docker:latest
@@ -32,6 +36,10 @@ build:
 #    - docker push $MONGODB_IMAGE
     - docker push $BACKEND_IMAGE
     - docker push $FRONTEND_IMAGE
+  tags:
+    - localshell
+    - localrunner
+
 
 deploy:
   image: docker:latest
@@ -42,3 +50,7 @@ deploy:
     name: testing
   only:
     - master
+  tags:
+    - localshell
+    - localrunner
+
