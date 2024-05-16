@@ -23,9 +23,11 @@ setup:
     # Check if the network exists
     - if [[ ! "$(docker network ls -q -f name=goals-net)" ]]; then docker network create goals-net; fi
 #    - docker run --name mongodb -d --network goals-net $MONGODB_IMAGE
-#    - if [[ ! "$(docker ps -q -f name=mongodb)" ]]; then docker run --name mongodb -d --network goals-net $MONGODB_IMAGE; fi
+    - if [[ ! "$(docker ps -q -f name=mongodb)" ]]; then docker run --name mongodb -d --network goals-net $MONGODB_IMAGE; fi
     - docker pull afaideen/goals-node:latest
+    - docker run --name goals-node --rm -d -p 80:80 afaideen/goals-node:latest
     - docker pull afaideen/goals-react:latest
+    - docker run --name goals-react --rm -d -p 3000:3000 afaideen/goals-react:latest
   tags:
     - localshell
     - localrunner
