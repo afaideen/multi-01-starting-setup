@@ -21,6 +21,8 @@ setup:
     - docker pull $MONGODB_IMAGE
     - docker network ls | grep -q goals-net || docker network create goals-net
     - docker run --name mongodb -d --network goals-net $MONGODB_IMAGE
+    - docker pull afaideen/goals-node:latest
+    - docker pull afaideen/goals-react:latest
   tags:
     - localshell
     - localrunner
@@ -30,12 +32,12 @@ build:
   image: docker:latest
   stage: build
   script:
-#    - docker build -t $MONGODB_IMAGE -f ./mongodb/Dockerfile ./mongodb
-    - docker build -t $BACKEND_IMAGE -f ./backend/Dockerfile ./backend
-    - docker build -t $FRONTEND_IMAGE -f ./frontend/Dockerfile ./frontend
-#    - docker push $MONGODB_IMAGE
-    - docker push $BACKEND_IMAGE
-    - docker push $FRONTEND_IMAGE
+
+#    - docker build -t $BACKEND_IMAGE -f ./backend/Dockerfile ./backend
+#    - docker build -t $FRONTEND_IMAGE -f ./frontend/Dockerfile ./frontend
+#    - docker push $BACKEND_IMAGE
+#    - docker push $FRONTEND_IMAGE
+    echo "Building..."
   tags:
     - localshell
     - localrunner
