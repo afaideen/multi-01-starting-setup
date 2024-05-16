@@ -2,7 +2,7 @@
 stages:
   - setup
   - build
-#  - deploy
+  - deploy
 
 services:
   - docker:dind
@@ -42,7 +42,7 @@ build:
 #    - docker build -t $FRONTEND_IMAGE -f ./frontend/Dockerfile ./frontend
 #    - docker push $BACKEND_IMAGE
 #    - docker push $FRONTEND_IMAGE
-    echo "Building..."
+    - echo "Building..."
   tags:
     - localshell
     - localrunner
@@ -52,7 +52,8 @@ deploy:
   image: docker:latest
   stage: deploy
   script:
-    - docker-compose -f docker-compose.yml up -d
+    - echo "deploying..."
+#    - docker-compose -f docker-compose.yml up -d
   environment:
     name: testing
   only:
