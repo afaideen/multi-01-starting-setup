@@ -2,10 +2,10 @@
 stages:
   - setup
   - build
-  - deploy
+#  - deploy
 
-#services:
-#  - docker:dind
+services:
+  - docker:dind
 
 variables:
   MONGODB_IMAGE: mongo
