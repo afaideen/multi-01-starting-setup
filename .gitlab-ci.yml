@@ -4,8 +4,8 @@ stages:
   - build
   - deploy
 
-services:
-  - docker:dind
+#services:
+#  - docker:dind
 
 variables:
   MONGODB_IMAGE: mongo
@@ -23,6 +23,7 @@ setup:
     - docker run --name mongodb -d --network goals-net $MONGODB_IMAGE
 
 build:
+  image: docker:latest
   stage: build
   script:
 #    - docker build -t $MONGODB_IMAGE -f ./mongodb/Dockerfile ./mongodb
@@ -33,6 +34,7 @@ build:
     - docker push $FRONTEND_IMAGE
 
 deploy:
+  image: docker:latest
   stage: deploy
   script:
     - docker-compose -f docker-compose.yml up -d
