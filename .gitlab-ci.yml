@@ -1,0 +1,42 @@
+
+stages:
+  - setup
+  - build
+  - deploy
+
+services:
+  - docker:dind
+
+variables:
+  MONGODB_IMAGE: mongo
+  BACKEND_IMAGE: goals-node
+  FRONTEND_IMAGE: goals-react
+
+before_script:
+  - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+
+setup:
+  stage: setup
+  script:
+    - docker pull $MONGODB_IMAGE
+    - docker network ls | grep -q goals-net || docker network create goals-net
+    - docker run --name mongodb -d --network goals-net $MONGODB_IMAGE
+
+build:
+  stage: build
+  script:
+#    - docker build -t $MONGODB_IMAGE -f ./mongodb/Dockerfile ./mongodb
+    - docker build -t $BACKEND_IMAGE -f ./backend/Dockerfile ./backend
+    - docker build -t $FRONTEND_IMAGE -f ./frontend/Dockerfile ./frontend
+#    - docker push $MONGODB_IMAGE
+    - docker push $BACKEND_IMAGE
+    - docker push $FRONTEND_IMAGE
+
+deploy:
+  stage: deploy
+  script:
+    - docker-compose -f docker-compose.yml up -d
+  environment:
+    name: testing
+  only:
+    - master
