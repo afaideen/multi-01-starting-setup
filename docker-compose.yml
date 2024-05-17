@@ -55,8 +55,8 @@ services:
 
     ports:
       - "3000:3000"
-#    networks:
-#      - goals-net
+    networks:
+      - goals-net
     stdin_open: true
     tty: true
     depends_on:

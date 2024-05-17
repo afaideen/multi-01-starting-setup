@@ -15,7 +15,15 @@ const accessLogStream = fs.createWriteStream(
   { flags: 'a' }
 );
 app.use(cors({
-    origin: 'http://139.162.44.216:3000' // Allow requests from this origin
+    // origin: 'http://localhost', // Allow requests from this origin
+    // origin: 'http://localhost/*', // Allow requests from this origin
+    // origin: 'http://localhost/goals', // Allow requests from this origin
+    // origin: 'http://localhost:3000', // Allow requests from this origin
+    // origin: 'http://192.168.160.157', // Allow requests from this origin
+    // origin: 'http://192.168.160.157/*', // Allow requests from this origin
+    // origin: 'http://192.168.160.157:3000', // Allow requests from this origin
+    origin: 'http://139.162.44.216:3000', // Allow requests from this origin
+    // origin: 'http://139.162.44.216/*' // Allow requests from this origin
 }));
 app.use(morgan('combined', { stream: accessLogStream }));
 
