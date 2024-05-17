@@ -12,10 +12,12 @@ function App() {
   let url;
   if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
       // If running on localhost, use the localhost URL
-      url = 'http://localhost/goals';
+      // url = 'http://localhost/goals';
+      url = `http://${window.location.hostname}/goals`;
   } else {
       // Otherwise, assume it's running on a remote server and use the remote URL
-      url = 'http://139.162.44.216/goals';
+      // url = 'http://139.162.44.216/goals';
+      url = `http://${window.location.hostname}/goals`;
   }
 
   useEffect(function () {

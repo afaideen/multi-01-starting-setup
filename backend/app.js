@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-
+const config = require('./config'); // Load the configuration file
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -17,10 +17,11 @@ const accessLogStream = fs.createWriteStream(
 let server_address = `${process.env.SERVER_ADDRESS}`;
 console.log("server_address is " + server_address);
 // Allow requests from multiple origins
-const allowedOrigins = [
-  'http://localhost:3000',
-  'http://139.162.44.216:3000'
-];
+// const allowedOrigins = [
+//   'http://localhost:3000',
+//   'http://139.162.44.216:3000'
+// ];
+const allowedOrigins = config.allowedOrigins;
 const corsOptions = {
   origin: function (origin, callback) {
     // Allow requests with no origin (like mobile apps or curl requests)
