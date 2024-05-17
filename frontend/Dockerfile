@@ -10,4 +10,6 @@ COPY . .
 
 EXPOSE 3000
 
+ENV SERVER_ADDRESS=http://localhost
+
 CMD ["npm", "start"]

@@ -9,13 +9,24 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  let url;
+  if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+      // If running on localhost, use the localhost URL
+      url = 'http://localhost/goals';
+  } else {
+      // Otherwise, assume it's running on a remote server and use the remote URL
+      url = 'http://139.162.44.216/goals';
+  }
+
   useEffect(function () {
     async function fetchData() {
       setIsLoading(true);
 
       try {
         // const response = await fetch('http://192.168.160.157/goals');
-        const response = await fetch('http://139.162.44.216/goals');
+        // const response = await fetch('http://139.162.44.216/goals');
+        // let url = `${process.env.SERVER_ADDRESS}/goals`
+        const response = await fetch(url);
         // const response = await fetch('http://localhost/goals');
         // const response = await fetch('http://goals-backend/goals');
 
@@ -43,7 +54,8 @@ function App() {
 
     try {
       // const response = await fetch('http://192.168.160.157/goals', {
-      const response = await fetch('http://139.162.44.216/goals', {
+      // const response = await fetch('http://139.162.44.216/goals', {
+      const response = await fetch(url, {
       // const response = await fetch('http://localhost/goals', {
       // const response = await fetch('http://goals-backend/goals', {
         method: 'POST',
@@ -85,7 +97,8 @@ function App() {
 
     try {
       // const response = await fetch('http://192.168.160.157/goals/' + goalId, {
-      const response = await fetch('http://139.162.44.216/goals/' + goalId, {
+      // const response = await fetch('http://139.162.44.216/goals/' + goalId, {
+      const response = await fetch(url + '/' + goalId, {
       // const response = await fetch('http://localhost/goals/' + goalId, {
         // const response = await fetch('http://goals-backend/goals/' + goalId, {
         method: 'DELETE',

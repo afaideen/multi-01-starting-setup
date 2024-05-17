@@ -14,17 +14,37 @@ const accessLogStream = fs.createWriteStream(
   path.join(__dirname, 'logs', 'access.log'),
   { flags: 'a' }
 );
-app.use(cors({
-    // origin: 'http://localhost', // Allow requests from this origin
-    // origin: 'http://localhost/*', // Allow requests from this origin
-    // origin: 'http://localhost/goals', // Allow requests from this origin
-    // origin: 'http://localhost:3000', // Allow requests from this origin
-    // origin: 'http://192.168.160.157', // Allow requests from this origin
-    // origin: 'http://192.168.160.157/*', // Allow requests from this origin
-    // origin: 'http://192.168.160.157:3000', // Allow requests from this origin
-    origin: 'http://139.162.44.216:3000', // Allow requests from this origin
-    // origin: 'http://139.162.44.216/*' // Allow requests from this origin
-}));
+let server_address = `${process.env.SERVER_ADDRESS}`;
+console.log("server_address is " + server_address);
+// Allow requests from multiple origins
+const allowedOrigins = [
+  'http://localhost:3000',
+  'http://139.162.44.216:3000'
+];
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+};
+app.use(cors(corsOptions));
+// app.use(cors({
+//     // origin: 'http://localhost', // Allow requests from this origin
+//     // origin: 'http://localhost/*', // Allow requests from this origin
+//     // origin: 'http://localhost/goals', // Allow requests from this origin
+//     // origin: 'http://localhost:3000', // Allow requests from this origin
+//     origin: server_address, // Allow requests from this origin
+//     // origin: 'http://192.168.160.157', // Allow requests from this origin
+//     // origin: 'http://192.168.160.157/*', // Allow requests from this origin
+//     // origin: 'http://192.168.160.157:3000', // Allow requests from this origin
+//     // origin: 'http://139.162.44.216:3000', // Allow requests from this origin
+//     // origin: 'http://139.162.44.216/*' // Allow requests from this origin
+// }));
 app.use(morgan('combined', { stream: accessLogStream }));
 
 app.use(bodyParser.json());
